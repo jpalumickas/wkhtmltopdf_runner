@@ -12,13 +12,15 @@ module WkhtmltopdfRunner
       @options = options
     end
 
-    def call
+    def run
+      validate!
+
       err = Open3.popen3(*command) do |_stdin, _stdout, stderr|
         stderr.read
       end
 
       unless err.empty?
-        raise WkhtmltopdfRunner::Path,
+        raise WkhtmltopdfRunner::Error,
           "Error generating PDF. Command Error:\n#{err}"
       end
 
@@ -26,6 +28,10 @@ module WkhtmltopdfRunner
     end
 
     private
+
+    def validate!
+      WkhtmltopdfRunner::PathValidator.validate!(wkhtmltopdf_path)
+    end
 
     def command
       command = [wkhtmltopdf_path]

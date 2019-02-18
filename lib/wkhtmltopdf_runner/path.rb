@@ -25,7 +25,7 @@ module WkhtmltopdfRunner
         `which #{EXE_NAME}`.chomp
       end
 
-      detected_path.present? && detected_path
+      Wkhtmltopdf::Utils.present?(detected_path) && detected_path
     rescue StandardError
       nil
     end
