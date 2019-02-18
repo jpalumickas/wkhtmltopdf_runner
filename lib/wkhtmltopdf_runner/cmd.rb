@@ -44,10 +44,10 @@ module WkhtmltopdfRunner
       options.each_with_object([]) do |(key, value), list|
         next if value == false
 
-        if value == true
-          list << "--#{Utils.dasherize(key)}"
+        list << if value == true
+          "--#{Utils.dasherize(key)}"
         else
-          list << "--#{Utils.dasherize(key)} #{Array(value).join(' ')}"
+          "--#{Utils.dasherize(key)} #{Array(value).join(' ')}"
         end
       end
     end
