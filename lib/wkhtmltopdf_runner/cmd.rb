@@ -4,22 +4,24 @@ require 'open3'
 
 module WkhtmltopdfRunner
   class Cmd
-    attr_reader :url, :file, :options
+    attr_reader :url, :file, :options, :config
 
-    def initialize(url, file, options = {})
+    def initialize(url, file, config, options = {})
       @url = url
       @file = file
+      @config = config
       @options = options
     end
 
     def run
       validate!
+      debug_command!
 
       err = Open3.popen3(*command) do |_stdin, _stdout, stderr|
         stderr.read
       end
 
-      unless err&.empty?
+      unless err&.strip&.empty?
         raise WkhtmltopdfRunner::Error,
           "Error generating PDF. Command Error:\n#{err}"
       end
@@ -33,8 +35,15 @@ module WkhtmltopdfRunner
       WkhtmltopdfRunner::PathValidator.validate!(wkhtmltopdf_path)
     end
 
+    def debug_command!
+      return unless config.debug
+
+      config.logger.debug("[Wkhtmltopdf::Runner] Running #{command.join(' ')}")
+    end
+
     def command
       command = [wkhtmltopdf_path]
+      command << '-q' # Output is in stderr so we need to run in quiet mode
       command += formatted_options
       command << url
       command << file_path
@@ -44,10 +53,12 @@ module WkhtmltopdfRunner
       options.each_with_object([]) do |(key, value), list|
         next if value == false
 
+        dashed_key = WkhtmltopdfRunner::Utils.dasherize(key.to_s)
+
         list << if value == true
-          "--#{Utils.dasherize(key)}"
+          "--#{dashed_key}"
         else
-          "--#{Utils.dasherize(key)} #{Array(value).join(' ')}"
+          "--#{dashed_key} #{Array(value).join(' ')}"
         end
       end
     end
@@ -61,7 +72,7 @@ module WkhtmltopdfRunner
     end
 
     def wkhtmltopdf_path
-      @wkhtmltopdf_path ||= WkhtmltopdfRunner::Path.new.call
+      @wkhtmltopdf_path ||= WkhtmltopdfRunner::Path.new(config.binary_path).call
     end
   end
 end
