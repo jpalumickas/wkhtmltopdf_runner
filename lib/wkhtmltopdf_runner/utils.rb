@@ -19,13 +19,13 @@ module WkhtmltopdfRunner
       word
     end
 
-    def blank?(obj)
+    def self.blank?(obj)
       return !!BLANK_RE.match(obj) if obj.is_a?(String)
 
       obj.respond_to?(:empty?) ? !!obj.empty? : !obj
     end
 
-    def present?(obj)
+    def self.present?(obj)
       !blank?(obj)
     end
   end

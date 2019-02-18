@@ -19,7 +19,7 @@ module WkhtmltopdfRunner
         stderr.read
       end
 
-      unless err.empty?
+      unless err&.empty?
         raise WkhtmltopdfRunner::Error,
           "Error generating PDF. Command Error:\n#{err}"
       end

@@ -15,15 +15,17 @@ module WkhtmltopdfRunner
     def validate!
       validate_if_path_exists!
       validate_if_path_executable!
+
+      true
     end
 
     private
 
     def validate_if_path_exists!
-      return if !path.empty? && File.exist?(path)
+      return if path && !path.empty? && File.exist?(path)
 
       raise WkhtmltopdfRunner::InvalidPathError,
-        "Cannot find wkhtmltopdf location: #{path}"
+        "Cannot find wkhtmltopdf location #{path}".strip
     end
 
     def validate_if_path_executable!

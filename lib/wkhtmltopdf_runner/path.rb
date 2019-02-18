@@ -20,12 +20,12 @@ module WkhtmltopdfRunner
 
     def path_from_which
       detected_path = if defined?(Bundler)
-        Bundler.which(EXE_NAME).chomp
+        Bundler.which(EXE_NAME)
       else
         `which #{EXE_NAME}`.chomp
       end
 
-      Wkhtmltopdf::Utils.present?(detected_path) && detected_path
+      WkhtmltopdfRunner::Utils.present?(detected_path) && detected_path
     rescue StandardError
       nil
     end
@@ -38,7 +38,7 @@ module WkhtmltopdfRunner
 
       possible_locations << %w[~/bin] if ENV.key?('HOME')
       possible_locations
-        .flat_map { |l| File.expand_path("#{l}/#{EXE_NAME}") }
+        .flatten.map { |l| File.expand_path(File.join(l, EXE_NAME)) }
         .detect { |location| File.exist?(location) }
     end
   end
