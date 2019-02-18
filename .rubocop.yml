@@ -1,5 +1,7 @@
 AllCops:
   TargetRubyVersion: 2.3
+  Exclude:
+    - 'bin/rubocop'
 
 Layout/AlignParameters:
   Enabled: true

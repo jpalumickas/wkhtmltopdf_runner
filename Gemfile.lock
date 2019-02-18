@@ -43,6 +43,7 @@ GEM
       unicode-display_width (~> 1.4.0)
     ruby-progressbar (1.10.0)
     unicode-display_width (1.4.1)
+    wkhtmltopdf-binary-edge (0.12.5.0)
 
 PLATFORMS
   ruby
@@ -53,6 +54,7 @@ DEPENDENCIES
   rake (~> 10.0)
   rspec (~> 3.0)
   rubocop
+  wkhtmltopdf-binary-edge (~> 0.12.5)
   wkhtmltopdf_runner!
 
 BUNDLED WITH
