@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Justas Palumickas']
   spec.email         = ['jpalumickas@gmail.com']
 
-  spec.summary       = 'Run wkhtmltopdf to generate HTML to PDF'
-  spec.description   = 'Run wkhtmltopdf to generate HTML to PDF'
+  spec.summary       = 'Wrapper for wkhtmltopdf to generate PDF from HTML.'
+  spec.description   = 'This gem is a wrapper for a popular wkhtmltopdf ' \
+                       'library to generate PDF files from HTML.'
   spec.homepage      = 'https://github.com/jpalumickas/wkhtmltopdf_runner'
   spec.license       = 'MIT'
 

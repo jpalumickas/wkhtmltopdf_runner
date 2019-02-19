@@ -32,4 +32,5 @@ Style/DoubleNegation:
 
 Metrics/BlockLength:
   Exclude:
+    - '*.gemspec'
     - 'spec/**/*_spec.rb'

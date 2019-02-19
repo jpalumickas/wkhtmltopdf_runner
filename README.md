@@ -55,7 +55,7 @@ You can render PDF from URL:
 
 If you will not provide block, PDF string will be returned.
 
-> **Note:* Be careful when using this method because all PDF content will
+> **Warning:** Be careful when using this method because all PDF content will
 > be stored in Memory. Better to use block which will return file. See examples
 > above.
 
@@ -65,7 +65,7 @@ pdf_string = WkhtmltopdfRunner.pdf_from_url('https://github.com')
 
 ## Configuration
 
-If you're using Rails, create file in `config/initializers/wkhtmltopdf_runner.rb'
+If you're using Rails, create file in `config/initializers/wkhtmltopdf_runner.rb`
 
 ```rb
 WkhtmltopdfRunner.configure do |config|
