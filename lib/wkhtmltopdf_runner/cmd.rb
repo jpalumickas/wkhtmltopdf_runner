@@ -6,7 +6,7 @@ module WkhtmltopdfRunner
   class Cmd
     attr_reader :url, :file, :options, :config
 
-    def initialize(url, file, config, options = {})
+    def initialize(url:, file:, config:, options: {})
       @url = url
       @file = file
       @config = config
