@@ -38,7 +38,7 @@ module WkhtmltopdfRunner
     def debug_command!
       return unless config.debug
 
-      config.logger.debug("[Wkhtmltopdf::Runner] Running #{command.join(' ')}")
+      config.logger.debug("[WkhtmltopdfRunner] Running #{command.join(' ')}")
     end
 
     def command

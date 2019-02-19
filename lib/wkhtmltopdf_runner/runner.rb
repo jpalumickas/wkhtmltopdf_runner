@@ -4,20 +4,23 @@ require 'wkhtmltopdf_runner/configuration'
 
 module WkhtmltopdfRunner
   class Runner
-    def pdf_from_string(string, options = {})
+    def pdf_from_file(file, options = {})
       Tempfile.open(['file-', '.pdf']) do |pdf_file|
-        Tempfile.open(['file-', '.html']) do |html_file|
-          html_file.binmode
-          html_file.write(string)
-          html_file.rewind
+        run(file.path, pdf_file, options)
+        pdf_file.rewind
 
-          run(html_file.path, pdf_file, options)
-          pdf_file.rewind
+        return yield(pdf_file) if block_given?
 
-          return yield(pdf_file) if block_given?
+        pdf_file.read
+      end
+    end
 
-          pdf_file.read
-        end
+    def pdf_from_string(string, options = {}, &block)
+      Tempfile.open(['file-', '.html']) do |html_file|
+        html_file.binmode
+        html_file.write(string)
+        html_file.rewind
+        pdf_from_file(html_file, options, &block)
       end
     end
 
