@@ -1,43 +1,88 @@
 # Wkhtmltopdf Runner
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/wkhtmltopdf_runner`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is a wrapper for a popular `wkhtmltopdf` library to generate PDF files from HTML.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile and then run `bundle install`:
 
 ```ruby
 gem 'wkhtmltopdf_runner'
 ```
 
-And then execute:
+You also need to have installed `wkhtmltopdf`. Easy way to do that is to add binary files to your Gemfile.
+```ruby
+gem 'wkhtmltopdf-binary' # or 'wkhtmltopdf-binary-edge'
+```
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install wkhtmltopdf_runner
+If you have custom path for `wkhtmltopdf` please see [Configuration](#configuration)
 
 ## Usage
 
-TODO: Write usage instructions here
+### Write to File
 
-## Development
+Use block which has File argument that will be returned after PDF generation.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+You can render PDF from HTML string:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```rb
+string = '<h1>Hello user</h1>'
+
+WkhtmltopdfRunner.pdf_from_string(string) do |file|
+  user.document.attach(io: file, file_name: 'document.pdf')
+end
+```
+
+You can render PDF from HTML file:
+
+```rb
+  File.open('index.html') do |html_file|
+    WkhtmltopdfRunner.pdf_from_file(html_file) do |file|
+      user.document.attach(io: file, file_name: 'document.pdf')
+    end
+  end
+```
+
+You can render PDF from URL:
+
+```rb
+  WkhtmltopdfRunner.pdf_from_url('https://github.com') do |file|
+    user.document.attach(io: file, file_name: 'document.pdf')
+  end
+```
+
+### Render to String
+
+If you will not provide block, PDF string will be returned.
+
+> **Note:* Be careful when using this method because all PDF content will
+> be stored in Memory. Better to use block which will return file. See examples
+> above.
+
+```rb
+pdf_string = WkhtmltopdfRunner.pdf_from_url('https://github.com')
+```
+
+## Configuration
+
+If you're using Rails, create file in `config/initializers/wkhtmltopdf_runner.rb'
+
+```rb
+WkhtmltopdfRunner.configure do |config|
+  config.debug = true # Default: false
+  config.logger = Logger.new('runner.log') # Default: STDOUT or Rails.logger in Rails
+  config.binary_path = '/path/to/wkhtmltopdf' # Default: will search automatically in PATH or Gemfile
+end
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/wkhtmltopdf_runner. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jpalumickas/wkhtmltopdf_runner. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+## Code of Conduct
+
+Everyone interacting in the WkhtmltopdfRunner project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/jpalumickas/wkhtmltopdf_runner/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the WkhtmltopdfRunner project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/wkhtmltopdf_runner/blob/master/CODE_OF_CONDUCT.md).
