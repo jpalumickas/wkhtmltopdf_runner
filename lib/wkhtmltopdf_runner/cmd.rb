@@ -10,7 +10,7 @@ module WkhtmltopdfRunner
       @url = url
       @file = file
       @config = config
-      @options = options
+      @options = options.reverse_merge(config.options)
     end
 
     def run
@@ -50,7 +50,7 @@ module WkhtmltopdfRunner
     end
 
     def formatted_options
-      options.each_with_object([]) do |(key, value), list|
+      opts = options.each_with_object([]) do |(key, value), list|
         next if value == false
 
         dashed_key = WkhtmltopdfRunner::Utils.dasherize(key.to_s)
@@ -58,9 +58,11 @@ module WkhtmltopdfRunner
         list << if value == true
           "--#{dashed_key}"
         else
-          "--#{dashed_key} #{Array(value).join(' ')}"
+          ["--#{dashed_key}"].concat(Array(value))
         end
       end
+
+      opts.flatten
     end
 
     def file_path

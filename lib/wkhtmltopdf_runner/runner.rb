@@ -25,7 +25,9 @@ module WkhtmltopdfRunner
     end
 
     def run(url, file, options = {})
-      WkhtmltopdfRunner::Cmd.new(url, file, config, options).run
+      WkhtmltopdfRunner::Cmd
+        .new(url: url, file: file, config: config, options: options)
+        .run
     end
 
     def config
