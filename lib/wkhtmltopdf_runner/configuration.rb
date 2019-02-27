@@ -4,19 +4,25 @@ require 'logger'
 
 module WkhtmltopdfRunner
   class Configuration
-    attr_writer :logger, :options
-    attr_accessor :debug, :binary_path
+    attr_writer :logger, :options, :debug
+    attr_accessor :binary_path
 
     def logger
-      @logger ||= begin
-        return Rails.logger if defined?(Rails)
+      return @logger if defined?(@logger)
+      return Rails.logger if defined?(Rails)
 
-        Logger.new(STDOUT)
-      end
+      Logger.new(STDOUT)
     end
 
     def options
       @options || {}
+    end
+
+    def debug
+      return @debug if defined?(@debug)
+      return true if defined?(Rails) && Rails.env.development?
+
+      false
     end
   end
 end
