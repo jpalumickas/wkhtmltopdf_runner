@@ -28,5 +28,9 @@ module WkhtmltopdfRunner
     def self.present?(obj)
       !blank?(obj)
     end
+
+    def self.presence(obj)
+      obj if present?(obj)
+    end
   end
 end

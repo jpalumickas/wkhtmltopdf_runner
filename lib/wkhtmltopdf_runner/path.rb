@@ -2,6 +2,10 @@
 
 module WkhtmltopdfRunner
   class Path
+    def self.get(path = nil)
+      new(path).call
+    end
+
     EXE_NAME = 'wkhtmltopdf'
 
     def initialize(path = nil)
@@ -9,7 +13,9 @@ module WkhtmltopdfRunner
     end
 
     def call
-      @path || find_wkhtmltopdf_binary_path
+      return @path if WkhtmltopdfRunner::Utils.present?(@path)
+
+      find_wkhtmltopdf_binary_path
     end
 
     private
@@ -25,21 +31,25 @@ module WkhtmltopdfRunner
         `which #{EXE_NAME}`.chomp
       end
 
-      WkhtmltopdfRunner::Utils.present?(detected_path) && detected_path
+      WkhtmltopdfRunner::Utils.presence(detected_path)
     rescue StandardError
       nil
     end
 
     def path_from_env
+      env_paths
+        .map { |l| File.expand_path(File.join(l, EXE_NAME)) }
+        .detect { |location| File.exist?(location) }
+    end
+
+    def env_paths
       possible_locations = [
-        ENV['PATH'].split(':'),
+        ENV['PATH'].split(File::PATH_SEPARATOR),
         %w[/usr/bin /usr/local/bin]
       ]
 
       possible_locations << %w[~/bin] if ENV.key?('HOME')
-      possible_locations
-        .flatten.map { |l| File.expand_path(File.join(l, EXE_NAME)) }
-        .detect { |location| File.exist?(location) }
+      possible_locations.flatten.uniq
     end
   end
 end

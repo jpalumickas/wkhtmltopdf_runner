@@ -10,7 +10,7 @@ module WkhtmltopdfRunner
       @url = url
       @file = file
       @config = config
-      @options = options.reverse_merge(config.options)
+      @options = config.options.merge(options)
     end
 
     def run
