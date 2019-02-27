@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'wkhtmltopdf_runner/configuration'
+require 'tempfile'
 
 module WkhtmltopdfRunner
   class Runner
