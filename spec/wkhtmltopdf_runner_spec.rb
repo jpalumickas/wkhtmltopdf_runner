@@ -5,7 +5,30 @@ RSpec.describe WkhtmltopdfRunner do
     expect(WkhtmltopdfRunner::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'has a client class' do
+    expect(described_class.runner).to be_a(WkhtmltopdfRunner::Runner)
+  end
+
+  it 'responds to config' do
+    expect(described_class).to respond_to(:config)
+  end
+
+  context 'with configuration' do
+    let(:logger) { Logger.new(STDOUT) }
+
+    before do
+      described_class.configure do |config|
+        config.debug = true
+        config.logger = logger
+      end
+    end
+
+    it 'has correct debug' do
+      expect(described_class.config.debug).to be_truthy
+    end
+
+    it 'has correct logger' do
+      expect(described_class.config.logger).to eq(logger)
+    end
   end
 end
