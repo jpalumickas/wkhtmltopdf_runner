@@ -12,7 +12,10 @@ module WkhtmltopdfRunner
         run(url, pdf_file, options)
         pdf_file.rewind
 
-        return yield(pdf_file) if block_given?
+        if block_given?
+          yield(pdf_file)
+          return true
+        end
 
         pdf_file.read
       end
