@@ -27,9 +27,9 @@ module WkhtmltopdfRunner
 
     def pdf_from_string(string, options = {}, &block)
       Tempfile.open(['file-', '.html']) do |html_file|
-        html_file.binmode
         html_file.write(string)
         html_file.rewind
+
         pdf_from_file(html_file, options, &block)
       end
     end
