@@ -17,13 +17,13 @@ module WkhtmltopdfRunner
       validate!
       debug_command!
 
-      err = Open3.popen3(*command) do |_stdin, _stdout, stderr|
-        stderr.read
+      err, exit_status = Open3.popen3(*command) do |_stdin, _stdout, stderr, wait_thr|
+        [stderr.read, wait_thr.value]
       end
 
-      unless err&.strip&.empty?
+      unless exit_status.success?
         raise WkhtmltopdfRunner::Error,
-          "Error generating PDF. Command Error:\n#{err}"
+          "Failed to generate PDF. Status: #{exit_status.exitstatus} Error:\n#{err&.strip}"
       end
 
       true
