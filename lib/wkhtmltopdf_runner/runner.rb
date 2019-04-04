@@ -19,7 +19,7 @@ module WkhtmltopdfRunner
     end
 
     def pdf_from_file(file, options = {}, &block)
-      pdf_from_url(file.path, options, &block)
+      pdf_from_url("file://#{file.path}", options, &block)
     end
 
     def pdf_from_string(string, options = {}, &block)
