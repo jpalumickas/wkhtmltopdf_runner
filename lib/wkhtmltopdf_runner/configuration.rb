@@ -11,7 +11,7 @@ module WkhtmltopdfRunner
       return @logger if defined?(@logger)
       return Rails.logger if defined?(Rails)
 
-      Logger.new(STDOUT)
+      Logger.new($stdout)
     end
 
     def options

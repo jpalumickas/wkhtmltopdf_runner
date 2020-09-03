@@ -2,10 +2,15 @@ require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.4
+  NewCops: enable
   Exclude:
     - 'bin/rubocop'
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+
+Layout/ArgumentAlignment:
   Enabled: true
   EnforcedStyle: with_fixed_indentation
 
@@ -25,12 +30,24 @@ Layout/EndAlignment:
   Enabled: true
   EnforcedStyleAlignWith: variable
 
+Lint/MissingSuper:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 
 Style/DoubleNegation:
   Exclude:
     - 'lib/wkhtmltopdf_runner/utils.rb'
+
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 10
 
 Metrics/BlockLength:
   Exclude:

@@ -14,7 +14,7 @@ RSpec.describe WkhtmltopdfRunner do
   end
 
   context 'with configuration' do
-    let(:logger) { Logger.new(STDOUT) }
+    let(:logger) { Logger.new($stdout) }
 
     before do
       described_class.configure do |config|
