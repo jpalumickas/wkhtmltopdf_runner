@@ -2,7 +2,7 @@
 
 RSpec.describe WkhtmltopdfRunner do
   it 'has a version number' do
-    expect(WkhtmltopdfRunner::VERSION).not_to be nil
+    expect(WkhtmltopdfRunner::VERSION).not_to be_nil
   end
 
   it 'has a client class' do
