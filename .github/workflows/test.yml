@@ -6,20 +6,23 @@ jobs:
   test:
     strategy:
       matrix:
-        ruby: [2.4, 2.5, 2.6]
+        ruby: [2.6, 2.7, '3.0', 3.1]
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v3
+
     - name: Set up Ruby ${{ matrix.ruby }}
       uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - name: Install libpng
-      run: wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb && sudo dpkg -i /tmp/libpng12.deb && rm /tmp/libpng12.deb
 
-    - name: Build and test with Rake
+    - name: Install libpng
+      run: sudo apt-get install libpng-dev
+
+    - name: Test
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
