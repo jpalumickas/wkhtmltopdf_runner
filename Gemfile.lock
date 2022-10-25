@@ -63,14 +63,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.1)
+  bundler (~> 2.2)
   pry
   rake (~> 13.0)
-  rspec (~> 3.9)
+  rspec (~> 3.11)
   rubocop
   rubocop-rspec
   simplecov
-  wkhtmltopdf-binary-edge (~> 0.12.5)
+  wkhtmltopdf-binary-edge (~> 0.12.6)
   wkhtmltopdf_runner!
 
 BUNDLED WITH
