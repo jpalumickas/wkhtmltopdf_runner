@@ -21,8 +21,10 @@ If you have custom path for `wkhtmltopdf` please see [Configuration](#configurat
 
 ### Write to File
 
-Use block which has File argument that will be returned after PDF generation.
+Use in a block which has File argument that will be returned after PDF generation as a TempFile.  
 
+#### ActiveStorage in Rails
+These examples show how to attach a file to a user with [ActiveStorage::Attach](https://api.rubyonrails.org/classes/ActiveStorage/Attached/One.html).  
 You can render PDF from HTML string:
 
 ```rb
@@ -50,7 +52,25 @@ You can render PDF from URL:
     user.document.attach(io: file, file_name: 'document.pdf')
   end
 ```
+### Sinatra
 
+You can send the resultant file as a download.
+
+```rb
+  WkhtmltopdfRunner.pdf_from_url('https://github.com') do |file|
+    send_file file, { filename: 'document.pdf' }
+  end
+```
+
+### Save to file
+You can also just save it to a file.
+```rb
+WkhtmltopdfRunner.pdf_from_url('https://github.com') do |file|
+  doc = File.open('document.pdf', 'w')
+  doc.write(file.read)
+  doc.close
+end
+```
 ### Render to String
 
 If you will not provide block, PDF string will be returned.
