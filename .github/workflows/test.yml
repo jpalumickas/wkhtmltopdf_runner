@@ -19,14 +19,10 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
 
-    - name: Install OpenSSL & libpng
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libssl-dev
-        sudo apt-get install -y libpng-dev
+    - name: Install libpng
+      run: sudo apt-get install -y libpng-dev
 
     - name: Test
       run: |
-        gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rspec
