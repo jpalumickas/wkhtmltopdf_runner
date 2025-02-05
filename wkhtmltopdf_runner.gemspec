@@ -34,10 +34,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.requirements << 'wkhtmltopdf'
-  spec.required_ruby_version = '>= 2.6.0'
-
-  spec.add_development_dependency 'bundler', '~> 2.2'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.11'
-  spec.add_development_dependency 'wkhtmltopdf-binary-edge', '~> 0.12.6'
+  spec.required_ruby_version = '>= 2.7.0'
 end
