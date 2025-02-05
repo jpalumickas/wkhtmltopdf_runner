@@ -13,7 +13,7 @@ group :development, :test do
 
   gem 'rake', '~> 13.2'
   gem 'rspec', '~> 3.13'
-  gem 'wkhtmltopdf-binary-edge', '~> 0.12.6'
+  gem 'wkhtmltopdf-binary', '~> 0.12.6'
 end
 
 # Specify your gem's dependencies in wkhtmltopdf_runner.gemspec
